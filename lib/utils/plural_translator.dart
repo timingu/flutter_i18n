@@ -3,6 +3,7 @@ import 'package:flutter_i18n/utils/simple_translator.dart';
 /// Translator for plural values
 class PluralTranslator extends SimpleTranslator {
   static const String PLURAL_SEPARATOR = "-";
+  static const String PLURAL_OTHER = "other";
   static final RegExp _parameterRegexp = RegExp("{(.+)}");
 
   final int pluralValue;
@@ -43,13 +44,21 @@ class PluralTranslator extends SimpleTranslator {
 
   String _findPluralSuffix(
       final Map<dynamic, dynamic> decodedSubMap, final String translationKey) {
-    final int? pluralSuffix = decodedSubMap.keys
+    int? pluralSuffix = decodedSubMap.keys
         .where((mapKey) => mapKey.startsWith(translationKey))
         .where((mapKey) => mapKey.split(PLURAL_SEPARATOR).length == 2)
         .map((mapKey) => int.tryParse(mapKey.split(PLURAL_SEPARATOR).last))
         .where((mapKeyPluralValue) => mapKeyPluralValue != null)
-        .lastWhere((mapKeyPluralValue) => mapKeyPluralValue! <= pluralValue,
+        .lastWhere((mapKeyPluralValue) => mapKeyPluralValue! == pluralValue,
             orElse: () => null);
+    if (pluralSuffix == null) {
+      if(decodedSubMap.keys
+          .where((mapKey) => mapKey.startsWith(translationKey))
+          .where((mapKey) => mapKey.split(PLURAL_SEPARATOR).length == 2)
+          .map((mapKey) => mapKey.split(PLURAL_SEPARATOR).last)
+      .any((mapKey) => mapKey == PLURAL_OTHER))
+        return PLURAL_OTHER;
+    }
     return pluralSuffix?.toString() ?? '';
   }
 
