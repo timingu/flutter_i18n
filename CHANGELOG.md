@@ -282,3 +282,13 @@ Fix for #204
 ## [0.34.0]
 Upgrade http@1.1.0, logging@1.2.0, xml2json@6.2.0, yaml@3.1.2, path@1.8.3
 Fix: deprecation warnings
+
+## [0.35.0]
+Upgrade intl@0.18.1, xml2json@6.2.2, toml@0.15.0, http@1.1.2
+Fix: deprecation warnings
+
+## [0.35.1]
+Change intl version to '>=0.17.0-0 <=0.19.0'
+
+## [0.36.0]
+Ability to define custom separator
