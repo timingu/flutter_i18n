@@ -43,8 +43,10 @@ class PluralTranslator extends SimpleTranslator {
   }
 
   String _findPluralSuffix(
-      final Map<dynamic, dynamic> decodedSubMap, final String translationKey) {
-    int? pluralSuffix = decodedSubMap.keys
+    final Map<dynamic, dynamic> decodedSubMap,
+    final String translationKey,
+  ) {
+    final int? pluralSuffix = decodedSubMap.keys
         .where((mapKey) => mapKey.startsWith(translationKey))
         .where((mapKey) => mapKey.split(PLURAL_SEPARATOR).length == 2)
         .map((mapKey) => int.tryParse(mapKey.split(PLURAL_SEPARATOR).last))
@@ -52,12 +54,11 @@ class PluralTranslator extends SimpleTranslator {
         .lastWhere((mapKeyPluralValue) => mapKeyPluralValue! == pluralValue,
             orElse: () => null);
     if (pluralSuffix == null) {
-      if(decodedSubMap.keys
+      if (decodedSubMap.keys
           .where((mapKey) => mapKey.startsWith(translationKey))
           .where((mapKey) => mapKey.split(PLURAL_SEPARATOR).length == 2)
           .map((mapKey) => mapKey.split(PLURAL_SEPARATOR).last)
-      .any((mapKey) => mapKey == PLURAL_OTHER))
-        return PLURAL_OTHER;
+          .any((mapKey) => mapKey == PLURAL_OTHER)) return PLURAL_OTHER;
     }
     return pluralSuffix?.toString() ?? '';
   }
