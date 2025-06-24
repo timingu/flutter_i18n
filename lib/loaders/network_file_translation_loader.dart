@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter_i18n/loaders/decoders/base_decode_strategy.dart';
 import 'package:http/http.dart' as http;
 
 import 'file_translation_loader.dart';
@@ -10,26 +11,27 @@ class NetworkFileTranslationLoader extends FileTranslationLoader {
   final Uri baseUri;
 
   NetworkFileTranslationLoader(
-      {required this.baseUri,
-        forcedLocale,
-        fallbackFile = "en",
-        separator = "_",
-        useCountryCode = false,
-        useScriptCode = false,
-        decodeStrategies})
+      {required Uri this.baseUri,
+      Locale? forcedLocale,
+      String fallbackFile = "en",
+      String separator = "_",
+      bool useCountryCode = false,
+      bool useScriptCode = false,
+      List<BaseDecodeStrategy>? decodeStrategies})
       : super(
-      fallbackFile: fallbackFile,
-      separator: separator,
-      useCountryCode: useCountryCode,
-      forcedLocale: forcedLocale,
-      decodeStrategies: decodeStrategies);
+            fallbackFile: fallbackFile,
+            separator: separator,
+            useCountryCode: useCountryCode,
+            forcedLocale: forcedLocale,
+            decodeStrategies: decodeStrategies);
 
   /// Load the file using an http client
   @override
-  Future<String> loadString(final String fileName, final String extension) async {
+  Future<String> loadString(
+      final String fileName, final String extension) async {
     final resolvedUri = resolveUri(fileName, extension);
     final result = await http.get(resolvedUri);
-    return utf8.decode(result.bodyBytes);
+    return result.body;
   }
 
   Uri resolveUri(final String fileName, final String extension) {
