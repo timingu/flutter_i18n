@@ -2,9 +2,18 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+    }
+}
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"

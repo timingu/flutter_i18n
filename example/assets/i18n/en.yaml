@@ -13,4 +13,4 @@ button:
 
 clicked:
   times-1: "You clicked {time} time!"
-#  times-other: "You clicked {times} times!"
+  times-other: "You clicked {times} times!"
