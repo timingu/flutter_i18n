@@ -6,30 +6,31 @@ import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CustomNetworkFileTranslationLoader extends NetworkFileTranslationLoader {
-  CustomNetworkFileTranslationLoader({required baseUri})
+  CustomNetworkFileTranslationLoader(Uri baseUri)
       : super(baseUri: baseUri, decodeStrategies: [JsonDecodeStrategy()]);
 
+  @override
   Uri resolveUri(final String fileName, final String extension) {
     return baseUri;
   }
 }
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
     translationLoader: CustomNetworkFileTranslationLoader(
-      baseUri: Uri.https("postman-echo.com", "get",
+      Uri.https("postman-echo.com", "get",
           {"title": "Basic network example", "content": "Translated content"}),
     ),
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(flutterI18nDelegate));
 }
 
 class MyApp extends StatelessWidget {
   final FlutterI18nDelegate flutterI18nDelegate;
 
-  MyApp(this.flutterI18nDelegate);
+  const MyApp(this.flutterI18nDelegate, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       localizationsDelegates: [
         flutterI18nDelegate,
         GlobalMaterialLocalizations.delegate,
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +69,7 @@ class MyHomePage extends StatelessWidget {
               ),
               I18nText(
                 "args.content",
-                child: Text(""),
+                child: const Text(""),
               ),
             ],
           ),

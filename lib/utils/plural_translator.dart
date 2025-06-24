@@ -33,13 +33,13 @@ class PluralTranslator extends SimpleTranslator {
   }
 
   String _findCorrectKey(final Map<dynamic, dynamic> decodedSubMap) {
-    final List<String> splittedKey = key.split(this.keySeparator!);
-    final String translationKey = splittedKey.removeLast();
+    final List<String> splitKeys = key.split(this.keySeparator!);
+    final String translationKey = splitKeys.removeLast();
     final String pluralSuffix =
         _findPluralSuffix(decodedSubMap, translationKey);
     final String lastKeyPart = "$translationKey$PLURAL_SEPARATOR$pluralSuffix";
-    splittedKey.add(lastKeyPart);
-    return splittedKey.join(this.keySeparator!);
+    splitKeys.add(lastKeyPart);
+    return splitKeys.join(this.keySeparator!);
   }
 
   String _findPluralSuffix(
